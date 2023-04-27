@@ -6,4 +6,4 @@ Email: annielly.sousa.060@ufrn.edu.br
 
 ## Links:
 
-https://github.com/Anniellyfs/ProjetoeAdministracaodeBD/blob/main/tarefas/t01/tarefa01.md
+[tarefa01.md](tarefas/t01/tarefa01.md)
