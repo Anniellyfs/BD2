@@ -1,46 +1,45 @@
-drop table if exists atividade cascade;
-drop table if exists projeto cascade;
-drop table if exists departamento cascade;
-drop table if exists funcionario cascade;
-
 CREATE TABLE funcionario (
-	codigo SERIAL PRIMARY KEY,
-	nome VARCHAR(50),
-	sexo CHAR(1),
-	dtNasc DATE,
-	salario DECIMAL(10,2),
-	codSupervisor INT,
-	codDepto INT,
-	FOREIGN KEY (codSupervisor) REFERENCES funcionario(codigo) ON DELETE SET NULL ON UPDATE CASCADE
+    codigo SERIAL PRIMARY KEY,
+    nome VARCHAR(50),
+    sexo CHAR(1),
+    dt_nasc DATE,
+    salario DECIMAL(10,2),
+    cod_depto INT,
+    FOREIGN KEY (cod_depto) REFERENCES departamento(codigo) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE departamento (
-	codigo SERIAL PRIMARY KEY,
-	sigla VARCHAR(10),
-	descricao VARCHAR(50),
-	codGerente INT,
-	UNIQUE (sigla),
-	FOREIGN KEY (codGerente) REFERENCES funcionario(codigo) ON DELETE SET NULL ON UPDATE CASCADE
+    codigo SERIAL PRIMARY KEY,
+    descricao VARCHAR(50),
+    cod_gerente INT,
+    FOREIGN KEY (cod_gerente) REFERENCES funcionario(codigo) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE projeto (
-	codigo SERIAL PRIMARY KEY,
-	nome VARCHAR(50),
-	descricao VARCHAR(250),
-	codResponsavel INT,
-	codDepto INT,
-	dataInicio DATE, 
-	dataFim DATE,
-	UNIQUE (nome),
-	FOREIGN KEY (codResponsavel) REFERENCES funcionario(codigo) ON DELETE SET NULL ON UPDATE CASCADE,
-	FOREIGN KEY (codDepto) REFERENCES departamento(codigo) ON DELETE SET NULL ON UPDATE CASCADE
+    codigo SERIAL PRIMARY KEY,
+    nome VARCHAR(50),
+    descricao VARCHAR(250),
+    cod_depto INT,
+    cod_responsavel INT,
+    data_inicio DATE,
+    data_fim DATE,
+    FOREIGN KEY (cod_depto) REFERENCES departamento(codigo) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (cod_responsavel) REFERENCES funcionario(codigo) ON DELETE SET NULL ON UPDATE CASCADE
 );
- 
+
 CREATE TABLE atividade (
-	codigo SERIAL PRIMARY KEY,
-	descricao VARCHAR(250),
-	codProjeto INT,
-	dataInicio DATE, 
-	dataFim DATE,
-	FOREIGN KEY (codProjeto) REFERENCES projeto(codigo) ON DELETE SET NULL ON UPDATE CASCADE
+    codigo SERIAL PRIMARY KEY,
+    nome VARCHAR(50),
+    descricao VARCHAR(250),
+    cod_responsavel INT,
+    data_inicio DATE,
+    data_fim DATE,
+    FOREIGN KEY (cod_responsavel) REFERENCES funcionario(codigo) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+CREATE TABLE atividade_projeto (
+    cod_projeto INT,
+    cod_atividade INT,
+    FOREIGN KEY (cod_projeto) REFERENCES projeto(codigo) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (cod_atividade) REFERENCES atividade(codigo) ON DELETE CASCADE ON UPDATE CASCADE
 );
