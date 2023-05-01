@@ -15,7 +15,7 @@ CREATE TABLE departamento (
     FOREIGN KEY (cod_gerente) REFERENCES funcionario(codigo) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
-ALTER TABLE funcionario ADD COLUMN cod_dep INT;
+ALTER TABLE funcionario ADD COLUMNS cod_dep INT;
 ALTER TABLE funcionario ADD FOREIGN KEY (cod_dep) REFERENCES departamento(codigo);
 
 CREATE TABLE projeto (
