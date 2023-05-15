@@ -1,15 +1,16 @@
 /*Faça uma função para calcular a média de idade por departamento.*/
 
 CREATE OR REPLACE FUNCTION calcular_media_idade_por_departamento()
-RETURNS TABLE (departamento_id int, media_idade numeric)
-AS $BODY$
+  RETURNS TABLE (codigo INT, media_idade DECIMAL(10, 2)) AS $$
 BEGIN
   RETURN QUERY
-    SELECT d.codigo AS departamento_id, AVG(EXTRACT(YEAR FROM AGE(CURRENT_DATE, f.dataNasc)))::numeric AS media_idade
-    FROM departamento d
-    LEFT JOIN funcionario f ON f.depto = d.codigo
-    GROUP BY d.codigo;
+  SELECT departamento.codigo, AVG(EXTRACT(YEAR FROM age(funcionario.dataNasc))) AS media_idade
+  FROM departamento
+  LEFT JOIN funcionario ON departamento.codigo = funcionario.depto
+  GROUP BY departamento.codigo;
+  
+  RETURN;
 END;
-$BODY$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 SELECT * FROM calcular_media_idade_por_departamento();
